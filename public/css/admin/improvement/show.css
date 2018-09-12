@@ -1,0 +1,8 @@
+td input {
+    border: none;
+    width: 100%;
+}
+
+tr.odd input {
+    background-color: rgb(249, 249, 249);
+}

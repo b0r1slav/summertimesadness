@@ -1,0 +1,1 @@
+<a type="button" class="btn btn-info btn-xs" href="{{ route('users.edit', $user->id) }}"><i class="fa fa-pencil"></i> Edit</a>

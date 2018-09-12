@@ -1,0 +1,11 @@
+{
+    "alias": "improvement",
+    "name": "improvement",
+    "author": "BM",
+    "description": "improvement",
+    "namespace": "App\\Module\\Improvement",
+    "version": "1.0",
+    "autoload": "psr-4",
+    "enabled": true,
+    "installed": true
+}

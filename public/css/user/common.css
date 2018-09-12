@@ -1,0 +1,29 @@
+/*reset*/
+div, ul, li, h3, span, table, tr, td, input, label {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('../../img/homeback.png');
+    font-family: 'Neucha', cursive;
+}
+
+body {
+    padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}
+
+td {
+    word-break: break-all;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}

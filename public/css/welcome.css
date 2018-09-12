@@ -1,0 +1,26 @@
+body {
+    padding-top: 70px;
+}
+
+body {
+    background: url('../img/blur-book-stack-books.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Neucha', cursive;
+}
+
+footer {
+    margin: 50px 0;
+    color: white;
+}
+
+.transparent-item {
+    background-color: rgba(194, 231, 246, 0.5);
+    border-radius: 5px;
+}
+
+.help-block {
+    color: red;
+}

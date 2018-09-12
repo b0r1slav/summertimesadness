@@ -1,0 +1,17 @@
+/* custom checkbox start */
+input[type="checkbox"] + label span.custom-checkbox {
+    display: inline-block;
+    background: url(../img/empty-checkbox.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    background-size: 100%;
+}
+
+input[type="checkbox"]:checked + label span.custom-checkbox {
+    background: url(../img/checked-checkbox.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    background-size: 100%;
+}
+/* custom checkbox end */
