@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Module\Improvement\Traits;
+namespace App\Module\Improvement\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Module\Improvement\Models\Evaluation;
 use Illuminate\Http\Request;
 use App\Module\Improvement\Models\PointsApprovement;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
-trait PointsApprovementActions
+class PointsApprovementController extends Controller
 {
+    protected $module = 'improvement';
+    protected $modelName = 'PointsApprovement';
+
     /**
      * @param PointsApprovement $pointsApprovement
      * @return mixed
@@ -22,7 +26,7 @@ trait PointsApprovementActions
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function pointsApprovement()
+    public function index()
     {
         return view('improvement::admin.points-approvement');
     }
@@ -31,7 +35,7 @@ trait PointsApprovementActions
      * @param PointsApprovement $pointsApprovement
      * @return mixed
      */
-    public function pointsApprovementData(PointsApprovement $pointsApprovement)
+    public function data(PointsApprovement $pointsApprovement)
     {
         return DataTables::of($pointsApprovement->getPointsApprovements())
             ->addColumn('action', function($pointsApprovement) {
@@ -47,6 +51,7 @@ trait PointsApprovementActions
     }
 
     /**
+     * @param Request $request
      * @param PointsApprovement $pointsApprovement
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -70,7 +75,7 @@ trait PointsApprovementActions
             });
 
         } catch (\Exception $e) {
-            
+
             $message = 'Oops! Something went wrong. Please try again.';
 
             return view('components.error', compact('message'));

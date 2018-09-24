@@ -1,19 +1,20 @@
-<?php
+<?php namespace App\Module\Improvement\Http\Controllers\Admin;
 
-namespace App\Module\Improvement\Traits;
-
-use Validator;
 use App\Module\Improvement\Models\Evaluation;
 use App\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-trait EvaluationActions
+class EvaluationController extends ImprovementController
 {
+    protected $module = 'improvement';
+    protected $modelName = 'Evaluation';
+
+
     /**
      * @return array
      */
-    protected function evaluationRules()
+    protected function rules()
     {
         return [
             'title' => 'required|string|min:3|max:191',
@@ -66,17 +67,6 @@ trait EvaluationActions
             ->make(true);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return mixed
-     */
-    public function storeEvaluation(Request $request, User $user)
-    {
-        return $this->store($request, $user, 'Evaluation');
-    }
 
     /**
      * Update the specified evaluation
@@ -89,10 +79,10 @@ trait EvaluationActions
     {
         if ($request->has('is_active')) {
 
-            return $this->deleteEvaluation($evaluation);
+            return $this->delete($evaluation);
         }
 
-        return $this->update($request, $evaluation, 'Evaluation');
+        return parent::update($evaluation->id, $request);
 
     }
 
@@ -102,7 +92,7 @@ trait EvaluationActions
      * @param Evaluation $evaluation
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function deleteEvaluation(Evaluation $evaluation)
+    public function delete(Evaluation $evaluation)
     {
         $message = 'The evaluation was successfully deleted!';
 

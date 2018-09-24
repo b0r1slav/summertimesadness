@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Module\Improvement\Traits;
+namespace App\Module\Improvement\Http\Controllers\Admin;
 
-use App\Module\Improvement\Models\Task;
+
 use App\User;
 use Yajra\DataTables\DataTables;
-use Illuminate\Http\Request;
-use Validator;
 
-trait TaskActions
+class TaskController extends ImprovementController
 {
+    protected $module = 'improvement';
+    protected $modelName = 'Task';
+
 
     /**
      * @return array
      */
-    protected function taskRules()
+    protected function rules()
     {
         return [
             'name' => 'required|string|min:3|max:191',
@@ -22,8 +23,7 @@ trait TaskActions
         ];
     }
 
-
-    public function tasksData(User $user)
+    public function data(User $user)
     {
         return DataTables::of($user->tasks()->get())
             ->addColumn('name', function($task) {
@@ -41,30 +41,4 @@ trait TaskActions
             ->rawColumns(['name', 'is_active', 'delete'])
             ->make(true);
     }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return mixed
-     */
-    public function storeTask(Request $request, User $user)
-    {
-        return $this->store($request, $user, 'Task');
-    }
-
-
-    public function updateTask(Request $request, Task $task)
-    {
-        return $this->update($request, $task, 'Task');
-    }
-
-
-    public function deleteTask(Task $task)
-    {
-        return $this->destroy($task, 'Task');
-    }
-
 }

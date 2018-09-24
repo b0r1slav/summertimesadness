@@ -2,21 +2,15 @@
 
 namespace App\Module\Improvement\Http\Controllers\Admin;
 
-use App\Module\Improvement\Traits\EvaluationActions;
-use App\Module\Improvement\Traits\PointsApprovementActions;
-use App\Module\Improvement\Traits\TaskActions;
+use Illuminate\Http\Request;
 use Validator;
 use App\User;
 use App\Http\Controllers\Controller;
 
 class ImprovementController extends Controller
 {
-    use EvaluationActions;
-    use PointsApprovementActions;
-    use TaskActions;
-
-
     protected $module = 'improvement';
+    protected $modelName;
 
 
     /**
@@ -44,16 +38,15 @@ class ImprovementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param $request
-     * @param $user
-     * @param $model
+     * @param Request $request
+     * @param User $user
      * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function store($request, $user, $model)
+    public function store(Request $request, User $user)
     {
-        $message = "The $model was successfully created!";
+        $message = "The {$this->modelName} was successfully created!";
 
-        $validator = Validator::make($request->all(), $this->{strtolower($model) . 'Rules'}());
+        $validator = Validator::make($request->all(), $this->rules());
 
         if ($validator->fails()) {
 
@@ -62,15 +55,23 @@ class ImprovementController extends Controller
 
         $input = filter_array($request->except(['_method', '_token']));
 
-        $user->{"set$model"}($input);
+        $user->{"set{$this->modelName}"}($input);
 
         return view('components.success', compact('message'));
     }
 
-
-    public function update($request, $instance, $model)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update($id, Request $request)
     {
-        $rules = $this->{strtolower($model) . 'Rules'}();
+        $item = app("App\\Module\\Improvement\\Models\\$this->modelName")::find($id);
+
+        $rules = $this->rules();
 
         $key = array_keys($request->except(['_method', '_token']));
 
@@ -84,7 +85,7 @@ class ImprovementController extends Controller
         }
 
         try {
-            $instance->update($request->all());
+            $item->update($request->all());
 
         } catch (\Exception $e) {
 
@@ -96,15 +97,23 @@ class ImprovementController extends Controller
     }
 
 
-    public function destroy($instance, $model)
+    /**
+     * Destroy the specified resource in storage.
+     *
+     * @param $id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function destroy($id)
     {
-        $message = "The $model was successfully deleted!";
+        $item = app("App\\Module\\Improvement\\Models\\$this->modelName")::find($id);
+
+        $message = "The {$this->modelName} was successfully deleted!";
 
         try {
-            $instance->delete();
+            $item->delete();
 
         } catch (\Exception $e) {
-            $message = "The $model not found!";
+            $message = "The {$this->modelName} not found!";
 
             return view('components.error', compact('message'));
         }
